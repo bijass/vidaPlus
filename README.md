@@ -160,10 +160,3 @@ uv run task test
 * **Suprimento:** `id`, `name`, `quantity`, `min_level`, `unit_id`
 * **Internação:** `id`, `admitted_at`, `discharged_at`, `bed_id`, `patient_id`
 
-## Contribuindo
-
-Contribuições são bem-vindas! Envie um *pull request*.
-
-## Licença
-
-Este projeto está licenciado sob os termos da Licença MIT.
