@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      DATABASE_URL: postgresql+psycopg://vidaplus:vidaplus@database:5432/vidaplus
+      SECRET_KEY: secretkey
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 15
+      TIMEZONE: UTC
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: vidaplus
+      POSTGRES_PASSWORD: vidaplus
+      POSTGRES_DB: vidaplus
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  database:

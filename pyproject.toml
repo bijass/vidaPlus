@@ -1,0 +1,51 @@
+[project]
+name = "vidaplus"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.15.2",
+    "bcrypt>=4.3.0",
+    "fastapi[standard]>=0.115.12",
+    "psycopg[binary]>=3.2.6",
+    "pydantic>=2.11.3",
+    "pydantic-settings>=2.9.1",
+    "pyjwt>=2.10.1",
+    "sqlalchemy>=2.0.40",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.6",
+    "taskipy>=1.14.1",
+]
+
+[tool.taskipy.tasks]
+dev = "fastapi dev vidaplus/run.py"
+lint = "ruff check ."
+format = "ruff check . --fix && ruff format ."
+test = "pytest --cov=vidaplus -x -s -vv"
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["I", "F", "W", "E", "PT", "PL"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.mypy]
+disallow_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
+plugins = ["pydantic.mypy"]
